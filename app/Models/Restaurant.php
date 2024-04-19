@@ -21,10 +21,10 @@ class Restaurant
             'description' => "Ini restaurant kecil"
         ]
     ];
+    // return self::$restauran_list;
 
     public static function all()
     {
-        // return self::$restauran_list;
         return collect(self::$restauran_list);
     }
 

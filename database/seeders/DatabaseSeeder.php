@@ -20,5 +20,13 @@ class DatabaseSeeder extends Seeder
         //     'name' => 'Test User',
         //     'email' => 'test@example.com',
         // ]);
+        \App\Models\Restaurants::factory(10)->create();
+
+        \App\Models\Restaurants::factory()->create([
+            'title' => 'Toko Pertama',
+            'slug' => 'toko-pertama',
+            'location' => 'Surabaya',
+            'body' => 'Ini toko pertama yang buka di Surabaya',
+        ]);
     }
 }

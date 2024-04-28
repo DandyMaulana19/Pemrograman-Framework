@@ -12,4 +12,8 @@ class Biodata extends Model
     protected $guarded = [
         'id'
     ];
+
+    public static $rules = [
+        'nim' => 'required|unique:biodatas',
+    ];
 }

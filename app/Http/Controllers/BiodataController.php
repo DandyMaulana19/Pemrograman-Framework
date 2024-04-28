@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use App\Models\Biodata;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\Rule;
+use Illuminate\Validation\ValidationException;
 
 class BiodataController extends Controller
 {
@@ -40,7 +42,10 @@ class BiodataController extends Controller
     public function store(Request $request)
     {
         $validatedData = $request->validate([
-            'nim' => 'required',
+            'nim' => [
+                'required',
+                Rule::unique('biodatas')->ignore($request->id),
+            ],
             'nama' => 'required',
             'email' => 'required',
             'phone' => 'required',
@@ -113,6 +118,11 @@ class BiodataController extends Controller
             $name_file = $randomString . "_" . $file->getClientOriginalName();
             $file->storeAs('public/image/', $name_file);
             $validatedData['img'] = $name_file;
+
+            $biodata = Biodata::findOrFail($id);
+            if ($biodata->img) {
+                Storage::delete('public/image/' . $biodata->img);
+            }
         };
 
         Biodata::where('id', $id)->update($validatedData);
